@@ -1,9 +1,52 @@
 package com.eoinfennessy.localissuetracker.ui.screens.issues
 
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.eoinfennessy.localissuetracker.data.Issue
+import com.eoinfennessy.localissuetracker.data.IssueStatus
+import com.eoinfennessy.localissuetracker.ui.components.IssueCard
 
 @Composable
-fun IssuesScreen() {
-    Text("Issues")
+fun IssuesScreen(
+    modifier: Modifier = Modifier,
+    issuesViewModel: IssuesViewModel = viewModel()
+) {
+    IssueCardList(issuesViewModel.issues, modifier)
+}
+
+@Composable
+internal fun IssueCardList(
+    issues: List<Issue>,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(modifier = modifier.padding(vertical = 4.dp)) {
+        items(
+            items = issues,
+            key = { issue -> issue.name }
+        ) { issue ->
+            IssueCard(
+                name = issue.name,
+                description = issue.description
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun IssuesScreenPreview() {
+    val issues =
+        List(30) { i -> Issue(
+            name = "Name $i",
+            description = "Description $i",
+            status = IssueStatus.CLOSED
+        )
+    }
+    IssueCardList(issues)
 }
