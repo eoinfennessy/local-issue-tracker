@@ -10,7 +10,7 @@ import timber.log.Timber.DebugTree
  * Read Timber's documentation for production setups.
  */
 @HiltAndroidApp
-class TodoApplication : Application() {
+class LocalIssueTrackerApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(DebugTree())
