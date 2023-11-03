@@ -24,10 +24,10 @@ fun LocalIssueTrackerNavHost(
             OverviewScreen()
         }
         composable(route = CreateIssue.route) {
-            CreateIssueScreen()
+            CreateIssueScreen(modifier, onSubmitForm = { navController.popBackStack() })
         }
         composable(route = Issues.route) {
-            IssuesScreen()
+            IssuesScreen(modifier)
         }
     }
 }

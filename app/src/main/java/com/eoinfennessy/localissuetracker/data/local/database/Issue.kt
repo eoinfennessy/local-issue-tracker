@@ -13,11 +13,11 @@ enum class IssueStatus {
 
 @Entity
 data class Issue(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
     val name: String,
     val description: String,
     val status: IssueStatus,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0
 )
 
 @Dao

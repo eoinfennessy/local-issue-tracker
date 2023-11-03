@@ -33,8 +33,8 @@ class FakeIssueRepository @Inject constructor() : IssueRepository {
 }
 
 val fakeMyModels = listOf(
-    Issue(0, "Issue 0", "Description 0", IssueStatus.OPEN),
-    Issue(1, "Issue 1", "Description 1", IssueStatus.OPEN),
-    Issue(2, "Issue 2", "Description 2", IssueStatus.OPEN),
-    Issue(3, "Issue 3", "Description 3", IssueStatus.OPEN),
+    Issue("Issue 0", "Description 0", IssueStatus.OPEN, 0),
+    Issue("Issue 1", "Description 1", IssueStatus.OPEN, 1),
+    Issue("Issue 2", "Description 2", IssueStatus.OPEN, 2),
+    Issue("Issue 3", "Description 3", IssueStatus.OPEN, 3),
 )

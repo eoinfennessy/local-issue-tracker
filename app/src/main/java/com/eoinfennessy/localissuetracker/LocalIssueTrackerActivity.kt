@@ -8,13 +8,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,6 +43,7 @@ class LocalIssueTrackerActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LocalIssueTrackerApp() {
     LocalIssueTrackerTheme {
@@ -61,7 +67,7 @@ fun LocalIssueTrackerApp() {
                             icon = { Icon(it.icon, it.route) },
                             selected = it.route == currentScreen.route,
                             onClick = {
-                                navController.navigateSingleTopTo(it.route)
+                                navController.navigate(it.route) { launchSingleTop = true }
                                 scope.launch { drawerState.close() }
                             }
                         )
@@ -70,6 +76,28 @@ fun LocalIssueTrackerApp() {
             },
         ) {
             Scaffold(
+                topBar = {
+                         TopAppBar(
+                             title = { Text(text = currentScreen.label) },
+                             colors = TopAppBarDefaults.topAppBarColors(
+                                 containerColor = MaterialTheme.colorScheme.primaryContainer
+                             ),
+                             navigationIcon =  {
+                                 IconButton(
+                                     content = {
+                                         Icon(Icons.Filled.Menu, contentDescription = "Menu")
+                                     },
+                                     onClick = {
+                                         scope.launch {
+                                             drawerState.apply {
+                                                 if (isClosed) open() else close()
+                                             }
+                                         }
+                                     }
+                                 )
+                             }
+                         )
+                },
                 floatingActionButton = {
                     FloatingActionButton(
                         content = { Icon(Icons.Filled.Menu, contentDescription = "Menu") },
