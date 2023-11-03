@@ -26,9 +26,9 @@ class IssuesViewModel @Inject constructor(
         .catch { emit(Error(it)) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
 
-    fun addIssue(issue: Issue) {
+    fun deleteIssue(issue: Issue) {
         viewModelScope.launch {
-            issueRepository.add(issue)
+            issueRepository.delete(issue)
         }
     }
 }

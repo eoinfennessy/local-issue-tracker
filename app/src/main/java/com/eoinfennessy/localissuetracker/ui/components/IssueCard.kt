@@ -33,19 +33,27 @@ import androidx.compose.ui.unit.dp
 import com.eoinfennessy.localissuetracker.R
 
 @Composable
-fun IssueCard(name: String, description: String) {
+fun IssueCard(
+    name: String,
+    description: String,
+    onClickDelete: () -> Unit
+) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primary
         ),
         modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
-        IssueCardContent(name, description)
+        IssueCardContent(name, description, onClickDelete)
     }
 }
 
 @Composable
-private fun IssueCardContent(name: String, description: String) {
+private fun IssueCardContent(
+    name: String,
+    description: String,
+    onClickDelete: () -> Unit
+) {
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     Row(
@@ -74,7 +82,7 @@ private fun IssueCardContent(name: String, description: String) {
                     FilledTonalButton(onClick = { /*TODO*/ }) {
                         Text(text = "Show More")
                     }
-                    FilledTonalIconButton(onClick = { /*TODO*/ }) {
+                    FilledTonalIconButton(onClick = onClickDelete) {
                         Icon(Icons.Filled.Delete, "Delete issue")
                     }
                 }
@@ -96,5 +104,5 @@ private fun IssueCardContent(name: String, description: String) {
 @Preview
 @Composable
 fun IssueCardPreview() {
-    IssueCard(name = "My Issue", description = "A description of my issue...")
+    IssueCard(name = "My Issue", description = "A description of my issue...", {})
 }

@@ -25,14 +25,18 @@ interface DataModule {
 }
 
 class FakeIssueRepository @Inject constructor() : IssueRepository {
-    override val issues: Flow<List<Issue>> = flowOf(fakeMyModels)
+    override val issues: Flow<List<Issue>> = flowOf(fakeIssues)
 
     override suspend fun add(issue: Issue) {
         throw NotImplementedError()
     }
+
+    override suspend fun delete(issue: Issue) {
+        throw NotImplementedError()
+    }
 }
 
-val fakeMyModels = listOf(
+val fakeIssues = listOf(
     Issue("Issue 0", "Description 0", IssueStatus.OPEN, 0),
     Issue("Issue 1", "Description 1", IssueStatus.OPEN, 1),
     Issue("Issue 2", "Description 2", IssueStatus.OPEN, 2),

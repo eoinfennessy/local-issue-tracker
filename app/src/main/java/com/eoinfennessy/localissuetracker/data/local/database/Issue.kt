@@ -1,6 +1,7 @@
 package com.eoinfennessy.localissuetracker.data.local.database
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Entity
 import androidx.room.Insert
 import androidx.room.PrimaryKey
@@ -22,9 +23,12 @@ data class Issue(
 
 @Dao
 interface IssueDao {
-    @Query("SELECT * FROM issue ORDER BY id DESC LIMIT 10")
+    @Query("SELECT * FROM issue ORDER BY id DESC")
     fun getIssues(): Flow<List<Issue>>
 
     @Insert
     suspend fun insertIssue(issue: Issue)
+
+    @Delete
+    suspend fun deleteIssue(issue: Issue)
 }

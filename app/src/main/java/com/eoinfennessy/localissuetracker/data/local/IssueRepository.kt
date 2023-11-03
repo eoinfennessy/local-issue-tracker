@@ -9,6 +9,7 @@ interface IssueRepository {
     val issues: Flow<List<Issue>>
 
     suspend fun add(issue: Issue)
+    suspend fun delete(issue: Issue)
 }
 
 class DefaultIssueRepository @Inject constructor(
@@ -19,5 +20,9 @@ class DefaultIssueRepository @Inject constructor(
 
     override suspend fun add(issue: Issue) {
         issueDao.insertIssue(issue)
+    }
+
+    override suspend fun delete(issue: Issue) {
+        issueDao.deleteIssue(issue)
     }
 }
