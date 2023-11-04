@@ -25,17 +25,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.eoinfennessy.localissuetracker.R
+import com.eoinfennessy.localissuetracker.data.local.database.IssueStatus
+import com.eoinfennessy.localissuetracker.utils.issueStatusToIcon
+import java.text.DateFormat
+import java.util.Date
 
 @Composable
 fun IssueCard(
     name: String,
     description: String,
+    dateCreated: String,
+    status: IssueStatus,
     onClickDelete: () -> Unit
 ) {
     Card(
@@ -44,7 +51,7 @@ fun IssueCard(
         ),
         modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
-        IssueCardContent(name, description, onClickDelete)
+        IssueCardContent(name, description, dateCreated, status, onClickDelete)
     }
 }
 
@@ -52,6 +59,8 @@ fun IssueCard(
 private fun IssueCardContent(
     name: String,
     description: String,
+    dateCreated: String,
+    status: IssueStatus,
     onClickDelete: () -> Unit
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
@@ -71,10 +80,21 @@ private fun IssueCardContent(
                 .weight(1f)
                 .padding(12.dp)
         ) {
-            Text(
-                text = name, style = MaterialTheme.typography.headlineMedium.copy(
-                    fontWeight = FontWeight.ExtraBold
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    issueStatusToIcon(issueStatus = status),
+                    "Issue Status",
+                    Modifier.padding(end = 8.dp)
                 )
+                Text(
+                    text = name,
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                )
+            }
+            Text(
+                text = "Created $dateCreated", style = MaterialTheme.typography.labelSmall
             )
             if (expanded) {
                 Text(modifier = Modifier.padding(vertical = 16.dp), text = description)
@@ -104,5 +124,10 @@ private fun IssueCardContent(
 @Preview
 @Composable
 fun IssueCardPreview() {
-    IssueCard(name = "My Issue", description = "A description of my issue...", {})
+    IssueCard(
+        name = "My Issue",
+        description = "A description of my issue...",
+        dateCreated = DateFormat.getDateTimeInstance().format(Date()),
+        status = IssueStatus.IN_PROGRESS
+    ) {}
 }

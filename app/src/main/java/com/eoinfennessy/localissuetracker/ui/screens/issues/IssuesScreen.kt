@@ -11,6 +11,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.eoinfennessy.localissuetracker.data.di.fakeIssues
 import com.eoinfennessy.localissuetracker.data.local.database.Issue
 import com.eoinfennessy.localissuetracker.ui.components.IssueCard
+import java.text.DateFormat
 
 @Composable
 fun IssuesScreen(
@@ -41,6 +42,8 @@ internal fun IssueCardList(
             IssueCard(
                 name = issue.name,
                 description = issue.description,
+                dateCreated = DateFormat.getDateTimeInstance().format(issue.dateCreated),
+                status = issue.status,
                 onClickDelete = { onDeleteIssue(issue) }
             )
         }

@@ -27,8 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.eoinfennessy.localissuetracker.data.local.database.Issue
-import com.eoinfennessy.localissuetracker.data.local.database.IssueStatus
 import com.eoinfennessy.localissuetracker.ui.components.MapLocationPicker
+import com.eoinfennessy.localissuetracker.utils.issueStatusStringToEnum
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.rememberCameraPositionState
@@ -165,12 +165,3 @@ fun CreateIssueScreen(
 
 fun validateName(name: String): Boolean = name != ""
 fun validateDescription(description: String): Boolean = description != ""
-
-fun issueStatusStringToEnum(issueStatus: String): IssueStatus {
-    return when (issueStatus) {
-        "Open" -> IssueStatus.OPEN
-        "In Progress" -> IssueStatus.IN_PROGRESS
-        "Closed" -> IssueStatus.CLOSED
-        else -> throw Error("Invalid issue status string provided: $issueStatus")
-    }
-}
