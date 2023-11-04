@@ -1,5 +1,6 @@
 package com.eoinfennessy.localissuetracker.ui.screens.createIssue
 
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,8 +27,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.eoinfennessy.localissuetracker.data.local.database.Issue
+import com.eoinfennessy.localissuetracker.ui.components.ImagePicker
 import com.eoinfennessy.localissuetracker.ui.components.MapLocationPicker
 import com.eoinfennessy.localissuetracker.utils.issueStatusStringToEnum
 import com.google.android.gms.maps.model.CameraPosition
@@ -47,6 +51,7 @@ fun CreateIssueScreen(
     var descriptionIsValid by remember { mutableStateOf<Boolean?>(null) }
     val issueStatuses = arrayOf("Open", "In Progress", "Closed")
     var issueStatus by remember { mutableStateOf(issueStatuses[0]) }
+    var photoUri: Uri? by remember { mutableStateOf(null) }
     val mapState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(LatLng(0.0, 0.0), 3f)
     }
@@ -142,6 +147,11 @@ fun CreateIssueScreen(
                 }
             }
         }
+        
+        ImagePicker(
+            onChangeImageUri = { uri -> photoUri = uri },
+            modifier = modifier.fillMaxWidth(0.7f).height(100.dp)
+        )
 
         Surface(
             Modifier
