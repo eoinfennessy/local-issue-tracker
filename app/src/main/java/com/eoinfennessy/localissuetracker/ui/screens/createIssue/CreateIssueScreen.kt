@@ -4,7 +4,9 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -12,6 +14,8 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -24,6 +28,10 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.eoinfennessy.localissuetracker.data.local.database.Issue
 import com.eoinfennessy.localissuetracker.data.local.database.IssueStatus
+import com.eoinfennessy.localissuetracker.ui.components.MapLocationPicker
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.rememberCameraPositionState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,6 +46,9 @@ fun CreateIssueScreen(
     var descriptionIsValid by remember { mutableStateOf<Boolean?>(null) }
     val issueStatuses = arrayOf("Open", "In Progress", "Closed")
     var issueStatus by remember { mutableStateOf(issueStatuses[0]) }
+    val mapState = rememberCameraPositionState {
+        position = CameraPosition.fromLatLngZoom(LatLng(0.0, 0.0), 3f)
+    }
 
     fun validateForm(): Boolean {
         nameIsValid = validateName(name)
@@ -53,7 +64,7 @@ fun CreateIssueScreen(
         onSubmitForm()
     }
 
-    Column(modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceEvenly) {
+    Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceEvenly) {
         Column {
             AnimatedVisibility(visible = (nameIsValid == false)) {
                 Text(
@@ -119,8 +130,18 @@ fun CreateIssueScreen(
                 }
             }
         }
-        
+
+        Surface(
+            Modifier
+                .fillMaxWidth(0.7f)
+                .fillMaxHeight(0.6f),
+            shape = Shapes().small
+        ) {
+            MapLocationPicker(mapState)
+        }
+
         Button(onClick = {
+            println(mapState.position.target)
             if (validateForm()) {
                 submitForm()
             }
