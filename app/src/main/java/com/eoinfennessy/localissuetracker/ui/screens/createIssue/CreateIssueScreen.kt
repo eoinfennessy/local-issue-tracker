@@ -32,6 +32,7 @@ import com.eoinfennessy.localissuetracker.ui.components.MapLocationPicker
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.rememberCameraPositionState
+import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,12 +60,23 @@ fun CreateIssueScreen(
     }
 
     fun submitForm() {
-        val issue = Issue(name, description, issueStatusStringToEnum(issueStatus))
+        val issue = Issue(
+            name = name,
+            description = description,
+            status = issueStatusStringToEnum(issueStatus),
+            latitude = mapState.position.target.latitude,
+            longitude = mapState.position.target.longitude,
+            dateCreated = Date()
+        )
         createIssueViewModel.addIssue(issue)
         onSubmitForm()
     }
 
-    Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceEvenly) {
+    Column(
+        Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly
+    ) {
         Column {
             AnimatedVisibility(visible = (nameIsValid == false)) {
                 Text(
@@ -141,7 +153,6 @@ fun CreateIssueScreen(
         }
 
         Button(onClick = {
-            println(mapState.position.target)
             if (validateForm()) {
                 submitForm()
             }

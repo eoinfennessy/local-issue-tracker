@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.eoinfennessy.localissuetracker.data.di.fakeIssues
 import com.eoinfennessy.localissuetracker.data.local.database.Issue
-import com.eoinfennessy.localissuetracker.data.local.database.IssueStatus
 import com.eoinfennessy.localissuetracker.ui.components.IssueCard
 
 @Composable
@@ -50,12 +50,5 @@ internal fun IssueCardList(
 @Preview
 @Composable
 fun IssuesScreenPreview() {
-    val issues =
-        List(30) { i -> Issue(
-            name = "Name $i",
-            description = "Description $i",
-            status = IssueStatus.CLOSED
-        )
-    }
-    IssueCardList(issues, {})
+    IssueCardList(fakeIssues, {})
 }

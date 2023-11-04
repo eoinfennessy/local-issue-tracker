@@ -10,6 +10,7 @@ import com.eoinfennessy.localissuetracker.data.local.DefaultIssueRepository
 import com.eoinfennessy.localissuetracker.data.local.IssueRepository
 import com.eoinfennessy.localissuetracker.data.local.database.Issue
 import com.eoinfennessy.localissuetracker.data.local.database.IssueStatus
+import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -36,9 +37,13 @@ class FakeIssueRepository @Inject constructor() : IssueRepository {
     }
 }
 
-val fakeIssues = listOf(
-    Issue("Issue 0", "Description 0", IssueStatus.OPEN, 0),
-    Issue("Issue 1", "Description 1", IssueStatus.OPEN, 1),
-    Issue("Issue 2", "Description 2", IssueStatus.OPEN, 2),
-    Issue("Issue 3", "Description 3", IssueStatus.OPEN, 3),
-)
+val fakeIssues = List(30) { i ->
+    Issue(
+        "Issue $i",
+        "Description $i",
+        IssueStatus.OPEN,
+        i.toDouble(),
+        i.toDouble(),
+        Date()
+    )
+}
