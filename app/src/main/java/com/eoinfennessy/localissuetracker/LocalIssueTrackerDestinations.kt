@@ -2,8 +2,10 @@ package com.eoinfennessy.localissuetracker
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AppRegistration
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Login
 import androidx.compose.material.icons.filled.Workspaces
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavType
@@ -42,5 +44,18 @@ object IssueDetails : LocalIssueTrackerDestination {
     )
 }
 
+object Login : LocalIssueTrackerDestination {
+    override val icon = Icons.Filled.Login
+    override val label = "Login"
+    override val route = "login"
+}
+
+object Register : LocalIssueTrackerDestination {
+    override val icon = Icons.Filled.AppRegistration
+    override val label = "Register"
+    override val route = "register"
+}
+
 val drawerDestinations = listOf(Overview, Issues, CreateIssue)
+val userDestinations = listOf(Login, Register)
 val allDestinations = listOf(Overview, Issues, CreateIssue, IssueDetails)

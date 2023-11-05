@@ -72,6 +72,18 @@ fun LocalIssueTrackerApp() {
                             }
                         )
                     }
+                    Divider()
+                    userDestinations.forEach {
+                        NavigationDrawerItem(
+                            label = { Text(text = it.label) },
+                            icon = { Icon(it.icon, it.route) },
+                            selected = it.route == currentScreen.route,
+                            onClick = {
+                                navController.navigate(it.route) { launchSingleTop = true }
+                                scope.launch { drawerState.close() }
+                            }
+                        )
+                    }
                 }
             },
         ) {

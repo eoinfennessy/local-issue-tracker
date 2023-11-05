@@ -10,6 +10,8 @@ import com.eoinfennessy.localissuetracker.ui.screens.createIssue.CreateIssueScre
 import com.eoinfennessy.localissuetracker.ui.screens.issueDetails.IssueDetailsScreen
 import com.eoinfennessy.localissuetracker.ui.screens.overview.OverviewScreen
 import com.eoinfennessy.localissuetracker.ui.screens.issues.IssuesScreen
+import com.eoinfennessy.localissuetracker.ui.screens.login.LoginScreen
+import com.eoinfennessy.localissuetracker.ui.screens.register.RegisterScreen
 
 @Composable
 fun LocalIssueTrackerNavHost(
@@ -29,6 +31,12 @@ fun LocalIssueTrackerNavHost(
         }
         composable(route = Issues.route) {
             IssuesScreen(onClickIssueDetails = { issueId -> navController.navigateToIssueDetails(issueId) } )
+        }
+        composable(route = Login.route) {
+            LoginScreen()
+        }
+        composable(route = Register.route) {
+            RegisterScreen()
         }
         composable(
             route = IssueDetails.route,
