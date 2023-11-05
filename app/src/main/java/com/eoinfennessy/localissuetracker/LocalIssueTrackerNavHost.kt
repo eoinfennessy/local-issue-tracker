@@ -22,13 +22,13 @@ fun LocalIssueTrackerNavHost(
         modifier = modifier
     ) {
         composable(route = Overview.route) {
-            OverviewScreen()
+            OverviewScreen(onMapMarkerInfoWindowClick = { issueId -> navController.navigateToIssueDetails(issueId) } )
         }
         composable(route = CreateIssue.route) {
             CreateIssueScreen(onSubmitForm = { navController.popBackStack() })
         }
         composable(route = Issues.route) {
-            IssuesScreen( onClickIssueDetails = { issueId -> navController.navigateToIssueDetails(issueId) } )
+            IssuesScreen(onClickIssueDetails = { issueId -> navController.navigateToIssueDetails(issueId) } )
         }
         composable(
             route = IssueDetails.route,

@@ -14,7 +14,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 fun IssueMarkersMap(
     issues: List<Issue>,
     modifier: Modifier = Modifier,
-    onInfoWindowClick: (Issue) -> Unit = {}
+    onInfoWindowClick: (issueId: Int) -> Unit = {}
 ) {
     val initialLocation = if (issues.isEmpty()) {
         LatLng(0.0, 0.0)
@@ -34,7 +34,7 @@ fun IssueMarkersMap(
                 state = MarkerState(position = position),
                 title = issue.name,
                 snippet = "${issue.description.take(20)}...",
-                onInfoWindowClick = { onInfoWindowClick(issue) }
+                onInfoWindowClick = { onInfoWindowClick(issue.id) }
             )
         }
     }
