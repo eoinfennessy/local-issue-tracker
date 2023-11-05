@@ -15,6 +15,7 @@ import java.text.DateFormat
 
 @Composable
 fun IssuesScreen(
+    onClickIssueDetails: (issueId: Int) -> Unit,
     modifier: Modifier = Modifier,
     issuesViewModel: IssuesViewModel = hiltViewModel()
 ) {
@@ -22,7 +23,8 @@ fun IssuesScreen(
     if (issuesUiState is IssuesUiState.Success) {
         IssueCardList(
             issues = (issuesUiState as IssuesUiState.Success).data,
-            onDeleteIssue = { issue: Issue-> issuesViewModel.deleteIssue(issue) },
+            onDeleteIssue = { issue: Issue -> issuesViewModel.deleteIssue(issue) },
+            onClickIssueDetails = onClickIssueDetails,
             modifier = modifier
         )
     }
@@ -31,6 +33,7 @@ fun IssuesScreen(
 @Composable
 internal fun IssueCardList(
     issues: List<Issue>,
+    onClickIssueDetails: (issueId: Int) -> Unit,
     onDeleteIssue: (Issue) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -45,6 +48,7 @@ internal fun IssueCardList(
                 dateCreated = DateFormat.getDateTimeInstance().format(issue.dateCreated),
                 status = issue.status,
                 imageUri = issue.imageUri,
+                onClickIssueDetails = { onClickIssueDetails(issue.id) },
                 onClickDelete = { onDeleteIssue(issue) }
             )
         }
@@ -54,5 +58,5 @@ internal fun IssueCardList(
 @Preview
 @Composable
 fun IssuesScreenPreview() {
-    IssueCardList(fakeIssues, {})
+    IssueCardList(fakeIssues, {}, {})
 }

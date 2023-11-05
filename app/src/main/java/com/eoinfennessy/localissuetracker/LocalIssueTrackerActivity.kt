@@ -51,7 +51,7 @@ fun LocalIssueTrackerApp() {
         val currentBackStack by navController.currentBackStackEntryAsState()
         val currentDestination = currentBackStack?.destination
         val currentScreen =
-            drawerDestinations.find { it.route == currentDestination?.route } ?: Overview
+            allDestinations.find { it.route == currentDestination?.route } ?: Overview
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val scope = rememberCoroutineScope()
 
@@ -59,7 +59,7 @@ fun LocalIssueTrackerApp() {
             drawerState = drawerState,
             drawerContent = {
                 ModalDrawerSheet {
-                    Text("Drawer title", modifier = Modifier.padding(16.dp))
+                    Text("Local Issue Tracker", modifier = Modifier.padding(16.dp))
                     Divider()
                     drawerDestinations.forEach {
                         NavigationDrawerItem(

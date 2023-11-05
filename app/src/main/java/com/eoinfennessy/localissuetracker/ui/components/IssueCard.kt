@@ -46,6 +46,7 @@ fun IssueCard(
     dateCreated: String,
     status: IssueStatus,
     imageUri: Uri?,
+    onClickIssueDetails: () -> Unit,
     onClickDelete: () -> Unit
 ) {
     Card(
@@ -54,7 +55,7 @@ fun IssueCard(
         ),
         modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
-        IssueCardContent(name, description, dateCreated, status, imageUri, onClickDelete)
+        IssueCardContent(name, description, dateCreated, status, imageUri, onClickIssueDetails, onClickDelete)
     }
 }
 
@@ -65,6 +66,7 @@ private fun IssueCardContent(
     dateCreated: String,
     status: IssueStatus,
     imageUri: Uri?,
+    onClickIssueDetails: () -> Unit,
     onClickDelete: () -> Unit
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
@@ -110,7 +112,7 @@ private fun IssueCardContent(
                 }
                 Text(modifier = Modifier.padding(vertical = 16.dp), text = description)
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    FilledTonalButton(onClick = { /*TODO*/ }) {
+                    FilledTonalButton(onClick = onClickIssueDetails) {
                         Text(text = "Show More")
                     }
                     FilledTonalIconButton(onClick = onClickDelete) {
@@ -140,6 +142,8 @@ fun IssueCardPreview() {
         description = "A description of my issue...",
         dateCreated = DateFormat.getDateTimeInstance().format(Date()),
         status = IssueStatus.IN_PROGRESS,
-        imageUri = Uri.EMPTY
-    ) {}
+        imageUri = Uri.EMPTY,
+        onClickIssueDetails = {},
+        onClickDelete = {}
+    )
 }

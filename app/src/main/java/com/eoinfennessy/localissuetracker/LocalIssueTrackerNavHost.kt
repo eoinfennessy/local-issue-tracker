@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.eoinfennessy.localissuetracker.ui.screens.createIssue.CreateIssueScreen
+import com.eoinfennessy.localissuetracker.ui.screens.issueDetails.IssueDetailsScreen
 import com.eoinfennessy.localissuetracker.ui.screens.overview.OverviewScreen
 import com.eoinfennessy.localissuetracker.ui.screens.issues.IssuesScreen
 
@@ -27,7 +28,16 @@ fun LocalIssueTrackerNavHost(
             CreateIssueScreen(onSubmitForm = { navController.popBackStack() })
         }
         composable(route = Issues.route) {
-            IssuesScreen()
+            IssuesScreen( onClickIssueDetails = { issueId -> navController.navigateToIssueDetails(issueId) } )
+        }
+        composable(
+            route = IssueDetails.route,
+            arguments = IssueDetails.arguments,
+        ) { navBackStackEntry ->
+            val id = navBackStackEntry.arguments?.getInt(IssueDetails.idArg)
+            if (id != null) {
+                IssueDetailsScreen(id)
+            }
         }
     }
 }
@@ -48,3 +58,7 @@ fun NavHostController.navigateSingleTopTo(route: String) =
         // Restore state when reselecting a previously selected item
         restoreState = true
     }
+
+private fun NavHostController.navigateToIssueDetails(issueId: Int) {
+    this.navigate("issue/$issueId")
+}
