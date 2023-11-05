@@ -36,7 +36,7 @@ fun LocalIssueTrackerNavHost(
         ) { navBackStackEntry ->
             val id = navBackStackEntry.arguments?.getInt(IssueDetails.idArg)
             if (id != null) {
-                IssueDetailsScreen(id)
+                IssueDetailsScreen()
             }
         }
     }
