@@ -32,6 +32,9 @@ interface IssueDao {
     @Query("SELECT * FROM issue ORDER BY id DESC")
     fun getIssues(): Flow<List<Issue>>
 
+    @Query("SELECT * FROM issue WHERE id = :id")
+    fun getIssue(id: Int): Flow<Issue>
+
     @Insert
     suspend fun insertIssue(issue: Issue)
 

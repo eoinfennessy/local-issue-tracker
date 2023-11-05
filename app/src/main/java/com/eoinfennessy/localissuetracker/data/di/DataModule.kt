@@ -28,6 +28,9 @@ interface DataModule {
 
 class FakeIssueRepository @Inject constructor() : IssueRepository {
     override val issues: Flow<List<Issue>> = flowOf(fakeIssues)
+    override fun getIssue(id: Int): Flow<Issue> {
+        throw NotImplementedError()
+    }
 
     override suspend fun add(issue: Issue) {
         throw NotImplementedError()
