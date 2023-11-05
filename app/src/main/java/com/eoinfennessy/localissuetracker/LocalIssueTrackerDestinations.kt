@@ -58,4 +58,4 @@ object Register : LocalIssueTrackerDestination {
 
 val drawerDestinations = listOf(Overview, Issues, CreateIssue)
 val userDestinations = listOf(Login, Register)
-val allDestinations = listOf(Overview, Issues, CreateIssue, IssueDetails)
+val allDestinations = listOf(Overview, Issues, CreateIssue, IssueDetails, Login, Register)

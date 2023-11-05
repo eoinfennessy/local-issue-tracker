@@ -36,6 +36,8 @@ import com.eoinfennessy.localissuetracker.data.local.database.Issue
 import com.eoinfennessy.localissuetracker.ui.components.ImagePicker
 import com.eoinfennessy.localissuetracker.ui.components.MapLocationPicker
 import com.eoinfennessy.localissuetracker.utils.issueStatusStringToEnum
+import com.eoinfennessy.localissuetracker.utils.validateIssueDescription
+import com.eoinfennessy.localissuetracker.utils.validateIssueName
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.rememberCameraPositionState
@@ -61,8 +63,8 @@ fun CreateIssueScreen(
     }
 
     fun validateForm(): Boolean {
-        nameIsValid = validateName(name)
-        descriptionIsValid = validateDescription(description)
+        nameIsValid = validateIssueName(name)
+        descriptionIsValid = validateIssueDescription(description)
         if (nameIsValid == false) return false
         if (descriptionIsValid == false) return false
         return true
@@ -105,7 +107,7 @@ fun CreateIssueScreen(
                 label = { Text(text = "Name") },
                 placeholder = { Text(text = "Name") },
                 value = name,
-                onValueChange = { name = it; nameIsValid = validateName(it) },
+                onValueChange = { name = it; nameIsValid = validateIssueName(it) },
                 isError = (nameIsValid == false)
             )
         }
@@ -121,7 +123,7 @@ fun CreateIssueScreen(
                 label = { Text(text = "Description") },
                 placeholder = { Text(text = "Description") },
                 value = description,
-                onValueChange = { description = it; descriptionIsValid = validateDescription(it) },
+                onValueChange = { description = it; descriptionIsValid = validateIssueDescription(it) },
                 isError = (descriptionIsValid == false)
             )
         }
@@ -184,6 +186,3 @@ fun CreateIssueScreen(
         }
     }
 }
-
-fun validateName(name: String): Boolean = name != ""
-fun validateDescription(description: String): Boolean = description != ""
