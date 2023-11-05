@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,13 +24,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.eoinfennessy.localissuetracker.ui.components.IssueMarkersMap
 import com.eoinfennessy.localissuetracker.utils.issueStatusToIcon
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MarkerState
-import com.google.maps.android.compose.rememberCameraPositionState
 import java.text.DateFormat
 
 @Composable
@@ -99,21 +93,11 @@ fun IssueDetailsScreen(
                             .fillMaxHeight(0.5f)
                     )
                 }
-
-                val issueLocation = LatLng(issue.latitude, issue.longitude)
-                val cameraPositionState = rememberCameraPositionState {
-                    position = CameraPosition.fromLatLngZoom(issueLocation, 10f)
-                }
-                GoogleMap(
-                    modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(5)),
-                    cameraPositionState = cameraPositionState
-                ) {
-                    Marker(
-                        state = MarkerState(position = issueLocation),
-                        title = issue.name,
-                        snippet = "${issue.description.take(20)}..."
-                    )
-                }
+                
+                IssueMarkersMap(
+                    issues = listOf(issue),
+                    modifier = Modifier.clip(RoundedCornerShape(5))
+                )
             }
         }
     }
