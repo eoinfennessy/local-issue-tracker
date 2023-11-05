@@ -1,5 +1,6 @@
 package com.eoinfennessy.localissuetracker.data.local.database
 
+import android.net.Uri
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Entity
@@ -21,6 +22,7 @@ data class Issue(
     val latitude: Double,
     val longitude: Double,
     val dateCreated: Date,
+    val imageUri: Uri?,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 )

@@ -1,5 +1,6 @@
 package com.eoinfennessy.localissuetracker.data.di
 
+import android.net.Uri
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -44,6 +45,7 @@ val fakeIssues = List(30) { i ->
         IssueStatus.OPEN,
         i.toDouble(),
         i.toDouble(),
-        Date()
+        Date(),
+        Uri.EMPTY
     )
 }

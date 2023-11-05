@@ -1,5 +1,7 @@
 package com.eoinfennessy.localissuetracker.ui.screens.createIssue
 
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.eoinfennessy.localissuetracker.data.local.database.Issue
@@ -43,7 +46,8 @@ import java.util.Date
 fun CreateIssueScreen(
     modifier: Modifier = Modifier,
     onSubmitForm: () -> Unit = {},
-    createIssueViewModel: CreateIssueViewModel = hiltViewModel()
+    createIssueViewModel: CreateIssueViewModel = hiltViewModel(),
+    context: Context = LocalContext.current,
 ) {
     var name by remember { mutableStateOf("") }
     var nameIsValid by remember { mutableStateOf<Boolean?>(null) }
@@ -51,7 +55,7 @@ fun CreateIssueScreen(
     var descriptionIsValid by remember { mutableStateOf<Boolean?>(null) }
     val issueStatuses = arrayOf("Open", "In Progress", "Closed")
     var issueStatus by remember { mutableStateOf(issueStatuses[0]) }
-    var photoUri: Uri? by remember { mutableStateOf(null) }
+    var imageUri: Uri? by remember { mutableStateOf(null) }
     val mapState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(LatLng(0.0, 0.0), 3f)
     }
@@ -64,14 +68,22 @@ fun CreateIssueScreen(
         return true
     }
 
+    fun saveImage(imageUri: Uri): Uri {
+        // TODO: Replace with proper file storage
+        context.contentResolver.takePersistableUriPermission(imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        return imageUri
+    }
+
     fun submitForm() {
+        val newImageUri = imageUri?.let { saveImage(it) }
         val issue = Issue(
             name = name,
             description = description,
             status = issueStatusStringToEnum(issueStatus),
             latitude = mapState.position.target.latitude,
             longitude = mapState.position.target.longitude,
-            dateCreated = Date()
+            dateCreated = Date(),
+            imageUri = newImageUri
         )
         createIssueViewModel.addIssue(issue)
         onSubmitForm()
@@ -149,7 +161,7 @@ fun CreateIssueScreen(
         }
         
         ImagePicker(
-            onChangeImageUri = { uri -> photoUri = uri },
+            onChangeImageUri = { uri -> imageUri = uri },
             modifier = modifier.fillMaxWidth(0.7f).height(100.dp)
         )
 

@@ -44,6 +44,7 @@ internal fun IssueCardList(
                 description = issue.description,
                 dateCreated = DateFormat.getDateTimeInstance().format(issue.dateCreated),
                 status = issue.status,
+                imageUri = issue.imageUri,
                 onClickDelete = { onDeleteIssue(issue) }
             )
         }

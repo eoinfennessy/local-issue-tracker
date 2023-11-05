@@ -1,5 +1,6 @@
 package com.eoinfennessy.localissuetracker.data.local.database
 
+import android.net.Uri
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
@@ -14,12 +15,22 @@ abstract class AppDatabase : RoomDatabase() {
 
 class Converters {
     @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
+    fun dateFromTimestamp(value: Long?): Date? {
         return value?.let { Date(it) }
     }
 
     @TypeConverter
     fun dateToTimestamp(date: Date?): Long? {
         return date?.time
+    }
+
+    @TypeConverter
+    fun uriFromString(uriString: String?): Uri? {
+        return uriString?.let { Uri.parse(it) }
+    }
+
+    @TypeConverter
+    fun uriToString(uri: Uri?): String? {
+        return uri?.toString()
     }
 }
