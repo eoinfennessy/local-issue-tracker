@@ -22,11 +22,14 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.eoinfennessy.localissuetracker.ui.theme.LocalIssueTrackerTheme
@@ -45,7 +48,9 @@ class LocalIssueTrackerActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LocalIssueTrackerApp() {
+fun LocalIssueTrackerApp(
+    localIssueTrackerViewModel: LocalIssueTrackerViewModel = hiltViewModel()
+) {
     LocalIssueTrackerTheme {
         val navController = rememberNavController()
         val currentBackStack by navController.currentBackStackEntryAsState()
@@ -54,6 +59,13 @@ fun LocalIssueTrackerApp() {
             allDestinations.find { it.route == currentDestination?.route } ?: Overview
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val scope = rememberCoroutineScope()
+
+        LaunchedEffect(true) {
+            localIssueTrackerViewModel.createAnonymousAccountIfNoUser()
+        }
+        val currentUser by localIssueTrackerViewModel.currentUser.collectAsStateWithLifecycle(
+            initialValue = null
+        )
 
         ModalNavigationDrawer(
             drawerState = drawerState,
