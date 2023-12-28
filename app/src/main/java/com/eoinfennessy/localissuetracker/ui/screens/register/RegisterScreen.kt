@@ -18,12 +18,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.eoinfennessy.localissuetracker.utils.validateEmail
 import com.eoinfennessy.localissuetracker.utils.validatePassword
 
 @Composable
 fun RegisterScreen(
     modifier: Modifier = Modifier,
+    onRegister: () -> Unit = {},
+    registerViewModel: RegisterViewModel = hiltViewModel()
 ) {
     var email by remember { mutableStateOf("") }
     var emailIsValid by remember { mutableStateOf<Boolean?>(null) }
@@ -43,7 +46,9 @@ fun RegisterScreen(
     }
 
     Column(
-        Modifier.fillMaxHeight(0.5f).fillMaxSize(),
+        Modifier
+            .fillMaxHeight(0.5f)
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -98,11 +103,13 @@ fun RegisterScreen(
         }
 
         Button(onClick = {
-            /* TODO */
-            validateForm()
+            if (validateForm()) {
+                registerViewModel.linkAccount(email, password)
+                onRegister()
+            }
         }
         ) {
-            Text(text = "Login")
+            Text(text = "Register")
         }
     }
 }
