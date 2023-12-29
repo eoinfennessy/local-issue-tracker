@@ -11,6 +11,7 @@ import com.eoinfennessy.localissuetracker.ui.screens.issueDetails.IssueDetailsSc
 import com.eoinfennessy.localissuetracker.ui.screens.overview.OverviewScreen
 import com.eoinfennessy.localissuetracker.ui.screens.issues.IssuesScreen
 import com.eoinfennessy.localissuetracker.ui.screens.login.LoginScreen
+import com.eoinfennessy.localissuetracker.ui.screens.signOut.SignOutScreen
 import com.eoinfennessy.localissuetracker.ui.screens.register.RegisterScreen
 
 @Composable
@@ -37,6 +38,9 @@ fun LocalIssueTrackerNavHost(
         }
         composable(route = Register.route) {
             RegisterScreen(onRegister = { navController.popBackStack() })
+        }
+        composable(route = SignOut.route) {
+            SignOutScreen()
         }
         composable(
             route = IssueDetails.route,

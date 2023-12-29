@@ -19,12 +19,20 @@ class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth) : A
 
     override val currentUser: Flow<User>
         get() = callbackFlow {
-            val listener =
+            val authStateListener =
                 FirebaseAuth.AuthStateListener { auth ->
-                    this.trySend(auth.currentUser?.let { User(it.uid, it.isAnonymous) } ?: User())
+                    this.trySend(auth.currentUser?.let { User(it.uid, it.isAnonymous, it.email) } ?: User())
                 }
-            auth.addAuthStateListener(listener)
-            awaitClose { auth.removeAuthStateListener(listener) }
+            val idTokenListener =
+                FirebaseAuth.IdTokenListener { auth ->
+                    this.trySend(auth.currentUser?.let { User(it.uid, it.isAnonymous, it.email) } ?: User())
+                }
+            auth.addAuthStateListener(authStateListener)
+            auth.addIdTokenListener(idTokenListener)
+            awaitClose {
+                auth.removeAuthStateListener(authStateListener)
+                auth.removeIdTokenListener(idTokenListener)
+            }
         }
 
     override suspend fun createAnonymousAccount() {
@@ -34,5 +42,15 @@ class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth) : A
     override suspend fun linkAccount(email: String, password: String) {
         val credential = EmailAuthProvider.getCredential(email, password)
         auth.currentUser!!.linkWithCredential(credential).await()
+    }
+
+    override suspend fun signOut() {
+        if (auth.currentUser?.isAnonymous == true) {
+            auth.currentUser?.delete()
+        }
+        auth.signOut()
+
+        // Sign in the user anonymously after sign-out
+        createAnonymousAccount()
     }
 }

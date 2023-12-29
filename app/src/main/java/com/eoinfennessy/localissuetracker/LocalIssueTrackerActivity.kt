@@ -35,6 +35,7 @@ import androidx.navigation.compose.rememberNavController
 import com.eoinfennessy.localissuetracker.ui.theme.LocalIssueTrackerTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber.Forest.d
 
 @AndroidEntryPoint
 class LocalIssueTrackerActivity : ComponentActivity() {
@@ -66,6 +67,7 @@ fun LocalIssueTrackerApp(
         val currentUser by localIssueTrackerViewModel.currentUser.collectAsStateWithLifecycle(
             initialValue = null
         )
+        d("Current user: $currentUser")
 
         ModalNavigationDrawer(
             drawerState = drawerState,
@@ -85,6 +87,12 @@ fun LocalIssueTrackerApp(
                         )
                     }
                     Divider()
+
+                    val userDestinations = if (currentUser?.isAnonymous == false) {
+                        userLoggedInDestinations
+                    } else {
+                        userSignedOutDestinations
+                    }
                     userDestinations.forEach {
                         NavigationDrawerItem(
                             label = { Text(text = it.label) },
