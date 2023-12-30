@@ -4,11 +4,11 @@ import com.eoinfennessy.localissuetracker.data.model.User
 import com.eoinfennessy.localissuetracker.data.service.AccountService
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import javax.inject.Inject
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
 class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth) : AccountService {
     override val currentUserId: String
@@ -34,6 +34,10 @@ class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth) : A
                 auth.removeIdTokenListener(idTokenListener)
             }
         }
+
+    override suspend fun authenticate(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password).await()
+    }
 
     override suspend fun createAnonymousAccount() {
         auth.signInAnonymously().await()

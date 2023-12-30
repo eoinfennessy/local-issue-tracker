@@ -34,7 +34,7 @@ fun LocalIssueTrackerNavHost(
             IssuesScreen(onClickIssueDetails = { issueId -> navController.navigateToIssueDetails(issueId) } )
         }
         composable(route = Login.route) {
-            LoginScreen()
+            LoginScreen(onLogin = { navController.popBackStack() })
         }
         composable(route = Register.route) {
             RegisterScreen(onRegister = { navController.popBackStack() })

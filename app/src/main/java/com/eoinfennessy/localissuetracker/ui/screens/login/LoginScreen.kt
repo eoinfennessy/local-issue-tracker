@@ -18,12 +18,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.eoinfennessy.localissuetracker.utils.validateEmail
 import com.eoinfennessy.localissuetracker.utils.validateNewPassword
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
+    onLogin: () -> Unit = {},
+    loginViewModel: LoginViewModel = hiltViewModel()
 ) {
     var email by remember { mutableStateOf("") }
     var emailIsValid by remember { mutableStateOf<Boolean?>(null) }
@@ -77,8 +80,10 @@ fun LoginScreen(
         }
 
         Button(onClick = {
-            /* TODO */
-            validateForm()
+            if (validateForm()) {
+                loginViewModel.authenticate(email, password)
+                onLogin()
+            }
         }
         ) {
             Text(text = "Login")
