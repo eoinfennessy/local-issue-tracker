@@ -48,6 +48,10 @@ class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth) : A
         auth.currentUser!!.linkWithCredential(credential).await()
     }
 
+    override suspend fun deleteAccount() {
+        auth.currentUser?.delete()?.await()
+    }
+
     override suspend fun signOut() {
         if (auth.currentUser?.isAnonymous == true) {
             auth.currentUser?.delete()

@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Login
 import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.ManageAccounts
 import androidx.compose.material.icons.filled.Workspaces
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavType
@@ -57,6 +58,12 @@ object Register : LocalIssueTrackerDestination {
     override val route = "register"
 }
 
+object AccountSettings : LocalIssueTrackerDestination {
+    override val icon = Icons.Filled.ManageAccounts
+    override val label = "Account Settings"
+    override val route = "account-settings"
+}
+
 object SignOut : LocalIssueTrackerDestination {
     override val icon = Icons.Filled.Logout
     override val label = "Sign Out"
@@ -65,5 +72,7 @@ object SignOut : LocalIssueTrackerDestination {
 
 val drawerDestinations = listOf(Overview, Issues, CreateIssue)
 val userSignedOutDestinations = listOf(Login, Register)
-val userLoggedInDestinations = listOf(SignOut)
-val allDestinations = listOf(Overview, Issues, CreateIssue, IssueDetails, Login, Register, SignOut)
+val userLoggedInDestinations = listOf(AccountSettings, SignOut)
+val allDestinations = listOf(
+    Overview, Issues, CreateIssue, IssueDetails, Login, Register, AccountSettings, SignOut,
+)

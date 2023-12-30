@@ -6,6 +6,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.eoinfennessy.localissuetracker.ui.screens.accountSettings.AccountSettingsScreen
 import com.eoinfennessy.localissuetracker.ui.screens.createIssue.CreateIssueScreen
 import com.eoinfennessy.localissuetracker.ui.screens.issueDetails.IssueDetailsScreen
 import com.eoinfennessy.localissuetracker.ui.screens.overview.OverviewScreen
@@ -38,6 +39,9 @@ fun LocalIssueTrackerNavHost(
         }
         composable(route = Register.route) {
             RegisterScreen(onRegister = { navController.popBackStack() })
+        }
+        composable(route = AccountSettings.route) {
+            AccountSettingsScreen(onDeleteAccount = { navController.navigate(Overview.route) })
         }
         composable(route = SignOut.route) {
             SignOutScreen()
