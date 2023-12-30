@@ -39,6 +39,10 @@ class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth) : A
         auth.signInWithEmailAndPassword(email, password).await()
     }
 
+    override suspend fun sendRecoveryEmail(email: String) {
+        auth.sendPasswordResetEmail(email).await()
+    }
+
     override suspend fun createAnonymousAccount() {
         auth.signInAnonymously().await()
     }

@@ -20,4 +20,8 @@ class LoginViewModel @Inject constructor(
             },
         ) { accountService.authenticate(email, password) }
     }
+
+    fun sendRecoveryEmail(email: String) {
+        viewModelScope.launch { accountService.sendRecoveryEmail(email) }
+    }
 }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -26,6 +27,7 @@ import com.eoinfennessy.localissuetracker.utils.validateNewPassword
 fun LoginScreen(
     modifier: Modifier = Modifier,
     onLogin: () -> Unit = {},
+    onSendRecoveryEmail: () -> Unit = {},
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
     var email by remember { mutableStateOf("") }
@@ -87,6 +89,16 @@ fun LoginScreen(
         }
         ) {
             Text(text = "Login")
+        }
+
+        OutlinedButton(onClick = {
+            if (validateEmail(email)) {
+                loginViewModel.sendRecoveryEmail(email)
+                onSendRecoveryEmail()
+            }
+        }
+        ) {
+            Text(text = "Forgot Password?")
         }
     }
 }
