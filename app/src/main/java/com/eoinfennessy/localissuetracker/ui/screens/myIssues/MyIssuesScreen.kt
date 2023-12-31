@@ -1,4 +1,4 @@
-package com.eoinfennessy.localissuetracker.ui.screens.issues
+package com.eoinfennessy.localissuetracker.ui.screens.myIssues
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -9,18 +9,18 @@ import com.eoinfennessy.localissuetracker.data.model.Issue
 import com.eoinfennessy.localissuetracker.ui.components.IssueCardList
 
 @Composable
-fun IssuesScreen(
+fun MyIssuesScreen(
     onClickIssueDetails: (issueId: String) -> Unit,
     modifier: Modifier = Modifier,
-    issuesViewModel: IssuesViewModel = hiltViewModel()
+    myIssuesViewModel: MyIssuesViewModel = hiltViewModel()
 ) {
-    val issuesUiState by issuesViewModel.uiState.collectAsStateWithLifecycle()
-    if (issuesUiState is IssuesUiState.Success) {
+    val myIssuesUiState by myIssuesViewModel.uiState.collectAsStateWithLifecycle()
+    if (myIssuesUiState is MyIssuesUiState.Success) {
         IssueCardList(
-            issues = (issuesUiState as IssuesUiState.Success).data,
-            onDeleteIssue = { issue: Issue -> issuesViewModel.deleteIssue(issue) },
+            issues = (myIssuesUiState as MyIssuesUiState.Success).data,
+            onDeleteIssue = { issue: Issue -> myIssuesViewModel.deleteIssue(issue) },
             onClickIssueDetails = onClickIssueDetails,
-            displayDeletePredicate = { issue: Issue -> issue.userId == issuesViewModel.userId },
+            displayDeletePredicate = { _ -> true },
             modifier = modifier
         )
     }

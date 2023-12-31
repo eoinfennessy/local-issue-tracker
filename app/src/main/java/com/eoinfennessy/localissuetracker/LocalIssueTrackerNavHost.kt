@@ -11,6 +11,7 @@ import com.eoinfennessy.localissuetracker.ui.screens.createIssue.CreateIssueScre
 import com.eoinfennessy.localissuetracker.ui.screens.issueDetails.IssueDetailsScreen
 import com.eoinfennessy.localissuetracker.ui.screens.issues.IssuesScreen
 import com.eoinfennessy.localissuetracker.ui.screens.login.LoginScreen
+import com.eoinfennessy.localissuetracker.ui.screens.myIssues.MyIssuesScreen
 import com.eoinfennessy.localissuetracker.ui.screens.overview.OverviewScreen
 import com.eoinfennessy.localissuetracker.ui.screens.register.RegisterScreen
 import com.eoinfennessy.localissuetracker.ui.screens.signOut.SignOutScreen
@@ -42,6 +43,9 @@ fun LocalIssueTrackerNavHost(
         }
         composable(route = Register.route) {
             RegisterScreen(onRegister = { navController.popBackStack() })
+        }
+        composable(route = MyIssues.route) {
+            MyIssuesScreen(onClickIssueDetails = { issueId -> navController.navigateToIssueDetails(issueId) } )
         }
         composable(route = AccountSettings.route) {
             AccountSettingsScreen(onDeleteAccount = { navController.navigate(Overview.route) })
