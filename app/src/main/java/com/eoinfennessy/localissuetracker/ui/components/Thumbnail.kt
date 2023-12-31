@@ -1,6 +1,5 @@
 package com.eoinfennessy.localissuetracker.ui.components
 
-import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +13,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
 @Composable
-fun Thumbnail(imageUri: Uri, contentDescription: String, modifier: Modifier = Modifier) {
+fun Thumbnail(imageUri: String, contentDescription: String, modifier: Modifier = Modifier) {
     Box(modifier.aspectRatio(1f)) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)

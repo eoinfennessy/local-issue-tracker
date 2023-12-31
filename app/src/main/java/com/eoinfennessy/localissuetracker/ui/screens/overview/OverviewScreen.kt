@@ -21,13 +21,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.eoinfennessy.localissuetracker.data.local.database.Issue
+import com.eoinfennessy.localissuetracker.data.model.Issue
 import com.eoinfennessy.localissuetracker.ui.components.IssueMarkersMap
 
 @Composable
 fun OverviewScreen(
     modifier: Modifier = Modifier,
-    onMapMarkerInfoWindowClick: (issueId: Int) -> Unit = {},
+    onMapMarkerInfoWindowClick: (issueId: String) -> Unit = {},
     overviewViewModel: OverviewViewModel = hiltViewModel()
 ) {
     val overviewUiState by overviewViewModel.uiState.collectAsStateWithLifecycle()
@@ -45,7 +45,7 @@ fun OverviewScreen(
 fun OverviewScreenContent(
     issues: List<Issue>,
     modifier: Modifier = Modifier,
-    onMapMarkerInfoWindowClick: (issueId: Int) -> Unit = {},
+    onMapMarkerInfoWindowClick: (issueId: String) -> Unit = {},
 ) {
     Column(
         modifier.fillMaxSize(),

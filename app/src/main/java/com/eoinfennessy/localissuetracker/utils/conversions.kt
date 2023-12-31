@@ -6,7 +6,7 @@ import androidx.compose.material.icons.filled.IncompleteCircle
 import androidx.compose.material.icons.filled.LightbulbCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.eoinfennessy.localissuetracker.data.local.database.IssueStatus
+import com.eoinfennessy.localissuetracker.data.model.IssueStatus
 
 fun issueStatusStringToEnum(issueStatus: String): IssueStatus {
     return when (issueStatus) {

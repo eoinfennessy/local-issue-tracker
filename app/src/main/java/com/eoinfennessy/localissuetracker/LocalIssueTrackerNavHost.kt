@@ -9,11 +9,11 @@ import androidx.navigation.compose.composable
 import com.eoinfennessy.localissuetracker.ui.screens.accountSettings.AccountSettingsScreen
 import com.eoinfennessy.localissuetracker.ui.screens.createIssue.CreateIssueScreen
 import com.eoinfennessy.localissuetracker.ui.screens.issueDetails.IssueDetailsScreen
-import com.eoinfennessy.localissuetracker.ui.screens.overview.OverviewScreen
 import com.eoinfennessy.localissuetracker.ui.screens.issues.IssuesScreen
 import com.eoinfennessy.localissuetracker.ui.screens.login.LoginScreen
-import com.eoinfennessy.localissuetracker.ui.screens.signOut.SignOutScreen
+import com.eoinfennessy.localissuetracker.ui.screens.overview.OverviewScreen
 import com.eoinfennessy.localissuetracker.ui.screens.register.RegisterScreen
+import com.eoinfennessy.localissuetracker.ui.screens.signOut.SignOutScreen
 
 @Composable
 fun LocalIssueTrackerNavHost(
@@ -53,7 +53,7 @@ fun LocalIssueTrackerNavHost(
             route = IssueDetails.route,
             arguments = IssueDetails.arguments,
         ) { navBackStackEntry ->
-            val id = navBackStackEntry.arguments?.getInt(IssueDetails.idArg)
+            val id = navBackStackEntry.arguments?.getString(IssueDetails.idArg)
             if (id != null) {
                 IssueDetailsScreen()
             }
@@ -78,6 +78,6 @@ fun NavHostController.navigateSingleTopTo(route: String) =
         restoreState = true
     }
 
-private fun NavHostController.navigateToIssueDetails(issueId: Int) {
+private fun NavHostController.navigateToIssueDetails(issueId: String) {
     this.navigate("issue/$issueId")
 }

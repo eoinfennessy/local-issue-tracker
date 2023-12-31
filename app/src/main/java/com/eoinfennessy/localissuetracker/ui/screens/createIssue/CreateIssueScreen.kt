@@ -32,7 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.eoinfennessy.localissuetracker.data.local.database.Issue
+import com.eoinfennessy.localissuetracker.data.model.Issue
 import com.eoinfennessy.localissuetracker.ui.components.ImagePicker
 import com.eoinfennessy.localissuetracker.ui.components.MapLocationPicker
 import com.eoinfennessy.localissuetracker.utils.issueStatusStringToEnum
@@ -85,7 +85,7 @@ fun CreateIssueScreen(
             latitude = mapState.position.target.latitude,
             longitude = mapState.position.target.longitude,
             dateCreated = Date(),
-            imageUri = newImageUri
+            imageUri = newImageUri.toString()
         )
         createIssueViewModel.addIssue(issue)
         onSubmitForm()

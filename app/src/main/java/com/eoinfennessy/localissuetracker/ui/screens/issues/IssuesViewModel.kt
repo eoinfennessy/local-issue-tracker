@@ -2,8 +2,8 @@ package com.eoinfennessy.localissuetracker.ui.screens.issues
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.eoinfennessy.localissuetracker.data.local.IssueRepository
-import com.eoinfennessy.localissuetracker.data.local.database.Issue
+import com.eoinfennessy.localissuetracker.data.model.Issue
+import com.eoinfennessy.localissuetracker.data.service.DbService
 import com.eoinfennessy.localissuetracker.ui.screens.issues.IssuesUiState.Error
 import com.eoinfennessy.localissuetracker.ui.screens.issues.IssuesUiState.Loading
 import com.eoinfennessy.localissuetracker.ui.screens.issues.IssuesUiState.Success
@@ -18,17 +18,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class IssuesViewModel @Inject constructor(
-    private val issueRepository: IssueRepository
+    private val dbService: DbService
 ) : ViewModel() {
 
-    val uiState: StateFlow<IssuesUiState> = issueRepository
+    val uiState: StateFlow<IssuesUiState> = dbService
         .issues.map<List<Issue>, IssuesUiState>(::Success)
         .catch { emit(Error(it)) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
 
     fun deleteIssue(issue: Issue) {
         viewModelScope.launch {
-            issueRepository.delete(issue)
+            dbService.delete(issue.id)
         }
     }
 }

@@ -1,38 +1,30 @@
 package com.eoinfennessy.localissuetracker.ui.screens.issueDetails
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.eoinfennessy.localissuetracker.IssueDetails
-import com.eoinfennessy.localissuetracker.data.local.IssueRepository
-import com.eoinfennessy.localissuetracker.data.local.database.Issue
-import com.eoinfennessy.localissuetracker.ui.screens.issueDetails.IssueDetailsUiState.Error
-import com.eoinfennessy.localissuetracker.ui.screens.issueDetails.IssueDetailsUiState.Loading
-import com.eoinfennessy.localissuetracker.ui.screens.issueDetails.IssueDetailsUiState.Success
+import com.eoinfennessy.localissuetracker.data.model.Issue
+import com.eoinfennessy.localissuetracker.data.service.DbService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class IssueDetailsViewModel @Inject constructor(
-    private val issueRepository: IssueRepository,
+    private val dbService: DbService,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val taskId: Int = savedStateHandle[IssueDetails.idArg]!!
+    var issue = mutableStateOf(Issue())
 
-    val uiState: StateFlow<IssueDetailsUiState> = issueRepository
-        .getIssue(taskId).map<Issue, IssueDetailsUiState>(::Success)
-        .catch { emit(Error(it)) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
-}
-
-sealed interface IssueDetailsUiState {
-    object Loading : IssueDetailsUiState
-    data class Error(val throwable: Throwable) : IssueDetailsUiState
-    data class Success(val data: Issue) : IssueDetailsUiState
+    init {
+        val taskId = savedStateHandle.get<String>(IssueDetails.idArg)
+        if (taskId != null) {
+            viewModelScope.launch {
+                issue.value = dbService.getIssue(taskId) ?: Issue()
+            }
+        }
+    }
 }

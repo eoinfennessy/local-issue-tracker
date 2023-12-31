@@ -1,6 +1,5 @@
 package com.eoinfennessy.localissuetracker.ui.components
 
-import android.net.Uri
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -34,7 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.eoinfennessy.localissuetracker.R
-import com.eoinfennessy.localissuetracker.data.local.database.IssueStatus
+import com.eoinfennessy.localissuetracker.data.model.IssueStatus
 import com.eoinfennessy.localissuetracker.utils.issueStatusToIcon
 import java.text.DateFormat
 import java.util.Date
@@ -45,7 +44,7 @@ fun IssueCard(
     description: String,
     dateCreated: String,
     status: IssueStatus,
-    imageUri: Uri?,
+    imageUri: String?,
     onClickIssueDetails: () -> Unit,
     onClickDelete: () -> Unit
 ) {
@@ -65,7 +64,7 @@ private fun IssueCardContent(
     description: String,
     dateCreated: String,
     status: IssueStatus,
-    imageUri: Uri?,
+    imageUri: String?,
     onClickIssueDetails: () -> Unit,
     onClickDelete: () -> Unit
 ) {
@@ -142,7 +141,7 @@ fun IssueCardPreview() {
         description = "A description of my issue...",
         dateCreated = DateFormat.getDateTimeInstance().format(Date()),
         status = IssueStatus.IN_PROGRESS,
-        imageUri = Uri.EMPTY,
+        imageUri = null,
         onClickIssueDetails = {},
         onClickDelete = {}
     )

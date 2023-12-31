@@ -2,8 +2,8 @@ package com.eoinfennessy.localissuetracker.ui.screens.overview
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.eoinfennessy.localissuetracker.data.local.IssueRepository
-import com.eoinfennessy.localissuetracker.data.local.database.Issue
+import com.eoinfennessy.localissuetracker.data.model.Issue
+import com.eoinfennessy.localissuetracker.data.service.DbService
 import com.eoinfennessy.localissuetracker.ui.screens.overview.OverviewUiState.Error
 import com.eoinfennessy.localissuetracker.ui.screens.overview.OverviewUiState.Loading
 import com.eoinfennessy.localissuetracker.ui.screens.overview.OverviewUiState.Success
@@ -17,10 +17,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OverviewViewModel @Inject constructor(
-    private val issueRepository: IssueRepository
+    private val dbService: DbService
 ) : ViewModel() {
 
-    val uiState: StateFlow<OverviewUiState> = issueRepository
+    val uiState: StateFlow<OverviewUiState> = dbService
         .issues.map<List<Issue>, OverviewUiState>(::Success)
         .catch { emit(Error(it)) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)

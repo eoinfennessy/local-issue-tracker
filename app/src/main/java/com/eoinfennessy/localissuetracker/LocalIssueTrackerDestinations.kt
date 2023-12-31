@@ -42,7 +42,7 @@ object IssueDetails : LocalIssueTrackerDestination {
     const val idArg = "id"
     override val route = "issue/{$idArg}"
     val arguments = listOf(
-        navArgument(idArg) { type = NavType.IntType }
+        navArgument(idArg) { type = NavType.StringType }
     )
 }
 
