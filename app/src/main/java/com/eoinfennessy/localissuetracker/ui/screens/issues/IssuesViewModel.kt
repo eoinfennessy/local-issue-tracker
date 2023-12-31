@@ -3,6 +3,7 @@ package com.eoinfennessy.localissuetracker.ui.screens.issues
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.eoinfennessy.localissuetracker.data.model.Issue
+import com.eoinfennessy.localissuetracker.data.service.AccountService
 import com.eoinfennessy.localissuetracker.data.service.DbService
 import com.eoinfennessy.localissuetracker.ui.screens.issues.IssuesUiState.Error
 import com.eoinfennessy.localissuetracker.ui.screens.issues.IssuesUiState.Loading
@@ -18,13 +19,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class IssuesViewModel @Inject constructor(
-    private val dbService: DbService
+    private val dbService: DbService,
+    private val accountService: AccountService
 ) : ViewModel() {
 
     val uiState: StateFlow<IssuesUiState> = dbService
         .issues.map<List<Issue>, IssuesUiState>(::Success)
         .catch { emit(Error(it)) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
+
+    val userId = accountService.currentUserId
 
     fun deleteIssue(issue: Issue) {
         viewModelScope.launch {

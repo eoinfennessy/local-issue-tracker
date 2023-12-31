@@ -46,7 +46,8 @@ fun IssueCard(
     status: IssueStatus,
     imageUri: String?,
     onClickIssueDetails: () -> Unit,
-    onClickDelete: () -> Unit
+    onClickDelete: () -> Unit,
+    displayDelete: Boolean
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -54,7 +55,7 @@ fun IssueCard(
         ),
         modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
-        IssueCardContent(name, description, dateCreated, status, imageUri, onClickIssueDetails, onClickDelete)
+        IssueCardContent(name, description, dateCreated, status, imageUri, onClickIssueDetails, onClickDelete, displayDelete)
     }
 }
 
@@ -66,7 +67,8 @@ private fun IssueCardContent(
     status: IssueStatus,
     imageUri: String?,
     onClickIssueDetails: () -> Unit,
-    onClickDelete: () -> Unit
+    onClickDelete: () -> Unit,
+    displayDelete: Boolean
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
 
@@ -114,8 +116,10 @@ private fun IssueCardContent(
                     FilledTonalButton(onClick = onClickIssueDetails) {
                         Text(text = "Show More")
                     }
-                    FilledTonalIconButton(onClick = onClickDelete) {
-                        Icon(Icons.Filled.Delete, "Delete issue")
+                    if (displayDelete) {
+                        FilledTonalIconButton(onClick = onClickDelete) {
+                            Icon(Icons.Filled.Delete, "Delete issue")
+                        }
                     }
                 }
             }
@@ -143,6 +147,7 @@ fun IssueCardPreview() {
         status = IssueStatus.IN_PROGRESS,
         imageUri = null,
         onClickIssueDetails = {},
-        onClickDelete = {}
+        onClickDelete = {},
+        displayDelete = true
     )
 }

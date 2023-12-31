@@ -25,6 +25,7 @@ fun IssuesScreen(
             issues = (issuesUiState as IssuesUiState.Success).data,
             onDeleteIssue = { issue: Issue -> issuesViewModel.deleteIssue(issue) },
             onClickIssueDetails = onClickIssueDetails,
+            displayDeletePredicate = { issue: Issue -> issue.userId == issuesViewModel.userId },
             modifier = modifier
         )
     }
@@ -35,6 +36,7 @@ internal fun IssueCardList(
     issues: List<Issue>,
     onClickIssueDetails: (issueId: String) -> Unit,
     onDeleteIssue: (Issue) -> Unit,
+    displayDeletePredicate: (Issue) -> Boolean,
     modifier: Modifier = Modifier
 ) {
     LazyColumn() {
@@ -49,7 +51,8 @@ internal fun IssueCardList(
                 status = issue.status,
                 imageUri = issue.imageUri,
                 onClickIssueDetails = { onClickIssueDetails(issue.id) },
-                onClickDelete = { onDeleteIssue(issue) }
+                onClickDelete = { onDeleteIssue(issue) },
+                displayDelete = displayDeletePredicate(issue)
             )
         }
     }
@@ -58,5 +61,5 @@ internal fun IssueCardList(
 @Preview
 @Composable
 fun IssuesScreenPreview() {
-    IssueCardList(fakeIssues, {}, {})
+    IssueCardList(fakeIssues, {}, {}, { true })
 }
