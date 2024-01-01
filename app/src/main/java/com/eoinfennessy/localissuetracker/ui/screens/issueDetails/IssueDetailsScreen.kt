@@ -33,70 +33,71 @@ fun IssueDetailsScreen(
     issueDetailsViewModel: IssueDetailsViewModel = hiltViewModel()
 ) {
     val issue by remember { issueDetailsViewModel.issue }
-    Box(
-        modifier = Modifier.fillMaxWidth(),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth(0.8f)
-                .padding(vertical = 8.dp)
+    if (issue.id.isNotEmpty()) {
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
         ) {
-            Card {
-                Column(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(0.8f)
+                    .padding(vertical = 8.dp)
+            ) {
+                Card {
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
                     ) {
-                        Icon(
-                            issueStatusToIcon(issueStatus = issue.status),
-                            "Issue Status",
-                            Modifier.padding(end = 8.dp),
-                            tint = MaterialTheme.colorScheme.primary
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Icon(
+                                issueStatusToIcon(issueStatus = issue.status),
+                                "Issue Status",
+                                Modifier.padding(end = 8.dp),
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                            Text(
+                                text = issue.name,
+                                style = MaterialTheme.typography.headlineMedium.copy(
+                                    fontWeight = FontWeight.ExtraBold
+                                ),
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                        Text(
+                            text = "Created ${
+                                DateFormat.getDateTimeInstance().format(issue.dateCreated)
+                            }", style = MaterialTheme.typography.labelSmall
                         )
                         Text(
-                            text = issue.name,
-                            style = MaterialTheme.typography.headlineMedium.copy(
-                                fontWeight = FontWeight.ExtraBold
-                            ),
-                            color = MaterialTheme.colorScheme.primary
+                            modifier = Modifier.padding(top = 12.dp),
+                            text = issue.description
                         )
                     }
-                    Text(
-                        text = "Created ${
-                            DateFormat.getDateTimeInstance().format(issue.dateCreated)
-                        }", style = MaterialTheme.typography.labelSmall
-                    )
-                    Text(
-                        modifier = Modifier.padding(top = 12.dp),
-                        text = issue.description
+                }
+
+                if (issue.imageUri != null) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(issue.imageUri)
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = "Issue Image",
+                        contentScale = ContentScale.FillHeight,
+                        modifier = Modifier
+                            .padding(vertical = 8.dp)
+                            .clip(RoundedCornerShape(5))
+                            .fillMaxHeight(0.5f)
                     )
                 }
-            }
 
-            if (issue.imageUri != null) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(issue.imageUri)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = "Issue Image",
-                    contentScale = ContentScale.FillHeight,
-                    modifier = Modifier
-                        .padding(vertical = 8.dp)
-                        .clip(RoundedCornerShape(5))
-                        .fillMaxHeight(0.5f)
+                IssueMarkersMap(
+                    issues = listOf(issue),
+                    modifier = Modifier.clip(RoundedCornerShape(5))
                 )
             }
-
-            IssueMarkersMap(
-                issues = listOf(issue),
-                modifier = Modifier.clip(RoundedCornerShape(5))
-            )
         }
-
     }
 }
