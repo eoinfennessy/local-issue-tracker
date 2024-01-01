@@ -1,6 +1,10 @@
 package com.eoinfennessy.localissuetracker
 
 import android.app.Application
+import com.google.firebase.Firebase
+import com.google.firebase.appcheck.appCheck
+import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
+import com.google.firebase.initialize
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.DebugTree
@@ -13,6 +17,10 @@ import timber.log.Timber.DebugTree
 class LocalIssueTrackerApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+        Firebase.initialize(context = this)
+        Firebase.appCheck.installAppCheckProviderFactory(
+            DebugAppCheckProviderFactory.getInstance(),
+        )
         Timber.plant(DebugTree())
     }
 }
