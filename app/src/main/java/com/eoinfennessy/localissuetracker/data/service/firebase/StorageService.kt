@@ -27,4 +27,10 @@ constructor(private val storage: FirebaseStorage, private val auth: AccountServi
         }
         return urlTask
     }
+
+    override suspend fun deleteFile(uri: Uri): Task<Void> {
+        val storageRef = storage.reference
+        val imageRef = storageRef.child("${uri.lastPathSegment}")
+        return imageRef.delete()
+    }
 }

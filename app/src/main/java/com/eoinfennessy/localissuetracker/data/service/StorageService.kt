@@ -6,4 +6,5 @@ import com.google.android.gms.tasks.Task
 
 interface StorageService {
     suspend fun uploadImage(uri: Uri): Task<Uri>
+    suspend fun deleteFile(uri: Uri): Task<Void>
 }
