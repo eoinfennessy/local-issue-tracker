@@ -20,7 +20,7 @@ class CreateIssueViewModel @Inject constructor(
     fun addIssue(issue: Issue) {
         viewModelScope.launch {
             if (!issue.imageUri.isNullOrEmpty()) {
-                val urlTask = storageService.uploadImage(Uri.parse(issue.imageUri))
+                val urlTask = storageService.uploadFile(Uri.parse(issue.imageUri), "images")
                 val url = urlTask.addOnCompleteListener { task ->
                     if (!task.isSuccessful) {
                         // TODO: Display snackbar showing error

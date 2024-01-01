@@ -12,9 +12,9 @@ class StorageServiceImpl
 constructor(private val storage: FirebaseStorage, private val auth: AccountService) :
     StorageService {
 
-    override suspend fun uploadImage(uri: Uri): Task<Uri> {
+    override suspend fun uploadFile(uri: Uri, directory: String): Task<Uri> {
         val storageRef = storage.reference
-        val imageRef = storageRef.child("images/${uri.lastPathSegment}")
+        val imageRef = storageRef.child("$directory/${uri.lastPathSegment}")
         val uploadTask = imageRef.putFile(uri)
 
         val urlTask = uploadTask.continueWithTask { task ->
